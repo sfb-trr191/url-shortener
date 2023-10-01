@@ -63,18 +63,21 @@ def Test():
         filename = os.fsdecode(file)
         file_path = os.path.join(directory_original_str, filename)
         file_path_out = os.path.join(directory_target_str, filename)
+        file_path_out_local = os.path.join(directory_target_local_str, filename)
         
         print("")
         print("file_path:", file_path)
         with open(file_path) as f:
             content = f.read()
 
-            url_without_parameters = content.split("?")[0]
+            #url_without_parameters = content.split("?")[0]
+            url_without_parameters = "https://sfb-trr191.github.io/3-torus-flowvis-tool/index.html"
+            url_local_without_parameters = "http://localhost:8000/index.html"
             parameters = content.split("?")[1]
 
             list_pair_strings = parameters.split("&")
 
-            new = url_without_parameters + "?"
+            new_parameters = ""
             is_first = True
 
             has_manifold_formulation = False
@@ -120,24 +123,28 @@ def Test():
                     continue
 
                 if not is_first:
-                    new += "&"
-                new += key + "=" + value
+                    new_parameters += "&"
+                new_parameters += key + "=" + value
                 is_first = False
             
 
             if not has_manifold_formulation:
-                new += "&" + "mani" + "=" + converted_space_to_manifold_formulation
+                new_parameters += "&" + "mani" + "=" + converted_space_to_manifold_formulation
             if not has_flow_formulation:
-                new += "&" + "flow" + "=" + converted_space_to_flow_formulation
+                new_parameters += "&" + "flow" + "=" + converted_space_to_flow_formulation
 
             #add completion marker
-            new += "&c=1"
+            new_parameters += "&c=1"
 
-            #write to new file
-            #print("new", new)
+            #write to new_parameters file
+            #print("new_parameters", new_parameters)
             print("file_path_out:", file_path_out)
             with open(file_path_out, "w") as f_out:
-                f_out.write(new)
+                f_out.write(url_without_parameters + "?" + new_parameters)
+
+
+            with open(file_path_out_local, "w") as f_out:
+                f_out.write(url_local_without_parameters + "?" + new_parameters)
 
 
             
