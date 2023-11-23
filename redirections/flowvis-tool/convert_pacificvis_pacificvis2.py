@@ -81,7 +81,7 @@ def Test():
 
                 #SET VERSION MONTH TO 10
                 if(key == "v_m"):
-                    value = "10"
+                    value = "11"
 
                 #skip completion marker
                 if(key == "c"):
